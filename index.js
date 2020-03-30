@@ -32,17 +32,41 @@ bot.on('message', message=>{
             bot.commands.get('website').execute(message,args)
         break;
          case 'info':
-            bot.commands.get('info').execute(message, args)
+            if(args[1] === 'version'){
+                message.channel.send('Version '+ version)
+            }else{
+                message.channel.send('Invalid Args')
+            }
         break;
         case 'clear':
             if(!args[1]) return message.reply('Error! Please define second arg')
         message.channel.bulkDelete(args[1]);
             break;
         case 'whois':
-           bot.commands.get('whois').execute(message,args)
+            const embed = new Discord.MessageEmbed()
+            .setTitle('User Information')
+            .addField('Player Name', message.author.username)
+            .addField('Version ', version)
+            .addField('Current Server', message.guild.name)
+            .addField('Avatar',message.author.avatarURL(),true)
+            .setColor(0xF1C40F)
+            .setFooter('The Anonymous Community | Bot Created By Lachlan T.#3964');
+            message.channel.send(embed)
             break;
         case 'help':
-            bot.commands.get('help').execute(message,args)
+            Discord.MessageEmbed()
+            .setTitle('Command Help')
+            .addField('Ping Command','-ping', true)
+            .addField('User Information','-whois',true)
+            .addField('Clear Command','-clear <no. of messages>',true)
+            .addField('Info Command', '-Info Version', true)
+            .addField('Help Command', '-help')
+            .addField('Admin Commands', 'These are Admin commands')
+            .addField('Ban Command', '-ban <@mention user>',true)
+            .addField('Kick Command', '-kick <@metion user>' ,true)
+            .setColor(0x165DE2)
+            .setFooter('The Anonymous Community | Bot Created By Lachlan T.#3964');
+            message.channel.send(embed)
             break;
         case 'here':
             bot.commands.get('here').execute(message,args)
